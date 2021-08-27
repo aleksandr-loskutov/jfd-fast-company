@@ -86,10 +86,10 @@ function Users() {
   };
 
   return (
-    <article>
+    <>
       <h2>{renderPhrase(users.length)}</h2>
       {renderTable()}
-    </article>
+    </>
   );
 }
 export default Users;
