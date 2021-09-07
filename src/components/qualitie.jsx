@@ -1,18 +1,6 @@
 import React from "react";
 
-function Qualitie({qualities}){
-    return qualities.map((quality) => {
-                return (
-                    <span
-                        key={quality._id}
-                        className={"badge m-1 bg-" + quality.color}
-                    >
-                      {quality.name}
-                    </span>
-                );
-            }
-    )
-
+function Qualitie({ _id, color, name }) {
+  return <span className={"badge m-1 bg-" + color}>{name}</span>;
 }
-
-export default Qualitie
+export default Qualitie;
