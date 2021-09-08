@@ -11,7 +11,13 @@ function User({ user, onDelete }) {
       <td>{user.name}</td>
       <td>
         {user.qualities.map((qualitie) => {
-          return <Qualitie key={qualitie._id} qualitie={qualitie} />;
+          return (
+            <Qualitie
+              key={qualitie._id}
+              color={qualitie.color}
+              name={qualitie.name}
+            />
+          );
         })}
       </td>
       <td>{user.profession?.name}</td>
