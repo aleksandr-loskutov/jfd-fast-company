@@ -6,13 +6,15 @@ import GroupList from "./groupList";
 import api from "../api";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
+import _ from "lodash";
 
 function Users({ users: allUsers, ...rest }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
+    const [sortBy, setSortBy] = useState({ iter: "name", order: "asc" });
 
-    const pageSize = 4;
+    const pageSize = 8;
     useEffect(() => {
         api.professions.fetchAll().then((data) => {
             setProfessions(data);
@@ -28,14 +30,15 @@ function Users({ users: allUsers, ...rest }) {
         setSelectedProf(item);
     };
     const handleSort = (item) => {
-        console.log(item);
+        setSortBy(item);
     };
     const filteredUsers = selectedProf
         ? allUsers.filter((user) => user.profession.name === selectedProf.name)
         : allUsers;
-    console.log("filteredUsers", filteredUsers);
     const count = filteredUsers.length;
-    const usersCrop = paginate(filteredUsers, currentPage, pageSize);
+    // console.log("filtered", filteredUsers);
+    const sortedUsers = _.orderBy(allUsers, [sortBy.iter], [sortBy.order]);
+    const usersCrop = paginate(sortedUsers, currentPage, pageSize);
     const clearFilter = () => {
         setSelectedProf();
     };
@@ -63,6 +66,7 @@ function Users({ users: allUsers, ...rest }) {
                     <UserTable
                         users={usersCrop}
                         onSort={handleSort}
+                        currentSort={sortBy}
                         {...rest}
                     />
                 )}
