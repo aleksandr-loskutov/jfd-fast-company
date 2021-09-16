@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import User from "./user";
 import { paginate } from "../utils/paginate";
 import Pagination from "./pagination";
 import PropTypes from "prop-types";
 import GroupList from "./groupList";
 import api from "../api";
 import SearchStatus from "./searchStatus";
+import UserTable from "./usersTable";
 
-function Users({ users: allUsers, onDelete }) {
+function Users({ users: allUsers, ...rest }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
@@ -26,6 +26,9 @@ function Users({ users: allUsers, onDelete }) {
     };
     const handleProfessionsSelect = (item) => {
         setSelectedProf(item);
+    };
+    const handleSort = (item) => {
+        console.log(item);
     };
     const filteredUsers = selectedProf
         ? allUsers.filter((user) => user.profession.name === selectedProf.name)
@@ -57,29 +60,11 @@ function Users({ users: allUsers, onDelete }) {
             <div className="d-flex flex-column">
                 <SearchStatus usersTotal={count} />
                 {count > 0 && (
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Имя</th>
-                                <th scope="col">Качества</th>
-                                <th scope="col">Профессия</th>
-                                <th scope="col">Встретился раз</th>
-                                <th scope="col">Оценка</th>
-                                <th scope="col">Избранное</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {usersCrop.map((user) => {
-                                return (
-                                    <User
-                                        key={user._id}
-                                        user={user}
-                                        onDelete={onDelete}
-                                    />
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                    <UserTable
+                        users={usersCrop}
+                        onSort={handleSort}
+                        {...rest}
+                    />
                 )}
                 <div className="d-flex justify-content-center">
                     <Pagination
@@ -95,7 +80,6 @@ function Users({ users: allUsers, onDelete }) {
 }
 
 Users.propTypes = {
-    users: PropTypes.array.isRequired,
-    onDelete: PropTypes.func.isRequired
+    users: PropTypes.array.isRequired
 };
 export default Users;

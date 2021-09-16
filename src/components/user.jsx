@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Qualitie from "./qualitie";
 import Bookmark from "./bookmark";
 import PropTypes from "prop-types";
-function User({ user, onDelete }) {
+function User({ user, ...rest }) {
     const [bookmark, setBookmark] = useState(false);
     const toggleBookmark = () => {
         setBookmark(!bookmark);
@@ -30,7 +30,7 @@ function User({ user, onDelete }) {
             <td>
                 <button
                     type={"button"}
-                    onClick={() => onDelete(user._id)}
+                    onClick={() => rest.onDelete(user._id)}
                     className={"btn btn-danger"}
                     userid={user._id}
                 >
