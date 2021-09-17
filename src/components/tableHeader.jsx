@@ -11,6 +11,19 @@ function TableHeader({ onSort, selectedSort, columns }) {
             onSort({ path: item, order: "asc" });
         }
     };
+    const getSortIcon = (path) => {
+        if (path === selectedSort.path) {
+            return (
+                <i
+                    className={
+                        "bi bi-caret-" +
+                        (selectedSort.order === "asc" ? "up" : "down") +
+                        "-fill"
+                    }
+                />
+            );
+        }
+    };
     return (
         <thead>
             <tr>
@@ -26,6 +39,7 @@ function TableHeader({ onSort, selectedSort, columns }) {
                         scope="col"
                     >
                         {columns[column].name}
+                        {getSortIcon(columns[column].path)}
                     </th>
                 ))}
             </tr>
