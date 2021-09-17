@@ -8,13 +8,39 @@ import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
 import _ from "lodash";
 
-function Users({ users: allUsers, onToggleBookMark, ...rest }) {
+function Users() {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
-
+    const [users, setUsers] = useState([]);
     const pageSize = 8;
+
+    useEffect(() => {
+        api.users.fetchAll().then((data) => {
+            setUsers(data);
+        });
+    }, []);
+    const handleToggleBookMark = (id) => {
+        setUsers(
+            users.map((user) => {
+                if (user._id === id) {
+                    return { ...user, bookmark: !user.bookmark };
+                }
+                return user;
+            })
+        );
+    };
+    const handleDelete = (userId) => {
+        setUsers(
+            users.reduce((newArr, user) => {
+                if (user._id !== userId) {
+                    newArr.push(user);
+                }
+                return newArr;
+            }, [])
+        );
+    };
     useEffect(() => {
         api.professions.fetchAll().then((data) => {
             setProfessions(data);
@@ -33,11 +59,10 @@ function Users({ users: allUsers, onToggleBookMark, ...rest }) {
         setSortBy(item);
     };
     const filteredUsers = selectedProf
-        ? allUsers.filter((user) => user.profession.name === selectedProf.name)
-        : allUsers;
+        ? users.filter((user) => user.profession.name === selectedProf.name)
+        : users;
     const count = filteredUsers.length;
-    // console.log("filtered", filteredUsers);
-    const sortedUsers = _.orderBy(allUsers, [sortBy.path], [sortBy.order]);
+    const sortedUsers = _.orderBy(users, [sortBy.path], [sortBy.order]);
     const usersCrop = paginate(sortedUsers, currentPage, pageSize);
     const clearFilter = () => {
         setSelectedProf();
@@ -67,8 +92,8 @@ function Users({ users: allUsers, onToggleBookMark, ...rest }) {
                         users={usersCrop}
                         onSort={handleSort}
                         selectedSort={sortBy}
-                        onToggleBookMark={onToggleBookMark}
-                        {...rest}
+                        onToggleBookMark={handleToggleBookMark}
+                        onDelete={handleDelete}
                     />
                 )}
                 <div className="d-flex justify-content-center">
