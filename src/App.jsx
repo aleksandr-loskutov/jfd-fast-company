@@ -9,6 +9,17 @@ function App() {
             setUsers(data);
         });
     }, []);
+    const handleToggleBookMark = (id) => {
+        setUsers(
+            users.map((user) => {
+                if (user._id === id) {
+                    return { ...user, bookmark: !user.bookmark };
+                }
+                return user;
+            })
+        );
+        console.log(id);
+    };
     const handleDelete = (userId) => {
         setUsers(
             users.reduce((newArr, user) => {
@@ -21,7 +32,11 @@ function App() {
     };
     return (
         <>
-            <Users users={users} onDelete={handleDelete} />
+            <Users
+                users={users}
+                onDelete={handleDelete}
+                onToggleBookMark={handleToggleBookMark}
+            />
         </>
     );
 }
