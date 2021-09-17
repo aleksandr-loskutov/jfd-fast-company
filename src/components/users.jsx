@@ -8,7 +8,7 @@ import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
 import _ from "lodash";
 
-function Users({ users: allUsers, ...rest }) {
+function Users({ users: allUsers, onToggleBookMark, ...rest }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
@@ -37,7 +37,7 @@ function Users({ users: allUsers, ...rest }) {
         : allUsers;
     const count = filteredUsers.length;
     // console.log("filtered", filteredUsers);
-    const sortedUsers = _.orderBy(allUsers, [sortBy.iter], [sortBy.order]);
+    const sortedUsers = _.orderBy(allUsers, [sortBy.path], [sortBy.order]);
     const usersCrop = paginate(sortedUsers, currentPage, pageSize);
     const clearFilter = () => {
         setSelectedProf();
@@ -67,6 +67,7 @@ function Users({ users: allUsers, ...rest }) {
                         users={usersCrop}
                         onSort={handleSort}
                         selectedSort={sortBy}
+                        onToggleBookMark={onToggleBookMark}
                         {...rest}
                     />
                 )}
@@ -84,6 +85,7 @@ function Users({ users: allUsers, ...rest }) {
 }
 
 Users.propTypes = {
-    users: PropTypes.array.isRequired
+    users: PropTypes.array.isRequired,
+    onToggleBookMark: PropTypes.func.isRequired
 };
 export default Users;

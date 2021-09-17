@@ -4,7 +4,13 @@ import PropTypes from "prop-types";
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
 import Bookmark from "./bookmark";
-function UserTable({ users, onSort, selectedSort, toggleBookmark, ...rest }) {
+function UserTable({
+    users,
+    onSort,
+    selectedSort,
+    onToggleBookMark,
+    onDelete
+}) {
     const columns = {
         name: { path: "name", name: "Имя" },
         qualities: { name: "Качества" },
@@ -20,11 +26,20 @@ function UserTable({ users, onSort, selectedSort, toggleBookmark, ...rest }) {
             component: (user) => (
                 <Bookmark
                     status={user.bookmark}
-                    onBookmark={user.toggleBookmark}
+                    onClick={() => onToggleBookMark(user._id)}
                 />
             )
         },
-        delete: { component: "delete" }
+        delete: {
+            component: (user) => (
+                <button
+                    onClick={() => onDelete(user._id)}
+                    className={"btn btn-danger"}
+                >
+                    удалить
+                </button>
+            )
+        }
     };
     return (
         <table className="table">
@@ -37,6 +52,7 @@ UserTable.propTypes = {
     users: PropTypes.array.isRequired,
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired,
-    toggleBookmark: PropTypes.func.isRequired
+    onToggleBookMark: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired
 };
 export default UserTable;
