@@ -3,7 +3,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
-function UserTable({ users, onSort, selectedSort, ...rest }) {
+import Bookmark from "./bookmark";
+function UserTable({ users, onSort, selectedSort, toggleBookmark, ...rest }) {
     const columns = {
         name: { path: "name", name: "Имя" },
         qualities: { name: "Качества" },
@@ -13,8 +14,17 @@ function UserTable({ users, onSort, selectedSort, ...rest }) {
             name: "Встретился, раз"
         },
         rate: { path: "rate", name: "Оценка" },
-        bookmark: { path: "bookmark", name: "Избранное" },
-        delete: {}
+        bookmark: {
+            path: "bookmark",
+            name: "Избранное",
+            component: (user) => (
+                <Bookmark
+                    status={user.bookmark}
+                    onBookmark={user.toggleBookmark}
+                />
+            )
+        },
+        delete: { component: "delete" }
     };
     return (
         <table className="table">
@@ -26,6 +36,7 @@ function UserTable({ users, onSort, selectedSort, ...rest }) {
 UserTable.propTypes = {
     users: PropTypes.array.isRequired,
     onSort: PropTypes.func.isRequired,
-    selectedSort: PropTypes.object.isRequired
+    selectedSort: PropTypes.object.isRequired,
+    toggleBookmark: PropTypes.func.isRequired
 };
 export default UserTable;
