@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { paginate } from "../utils/paginate";
 import Pagination from "./pagination";
-import PropTypes from "prop-types";
 import GroupList from "./groupList";
 import api from "../api";
 import SearchStatus from "./searchStatus";
@@ -109,8 +108,4 @@ function Users() {
     );
 }
 
-Users.propTypes = {
-    users: PropTypes.array.isRequired,
-    onToggleBookMark: PropTypes.func.isRequired
-};
 export default Users;
