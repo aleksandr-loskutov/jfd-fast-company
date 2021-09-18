@@ -18,7 +18,7 @@ Table.propTypes = {
     selectedSort: PropTypes.object,
     onSort: PropTypes.func,
     columns: PropTypes.object,
-    data: PropTypes.object.array,
+    data: PropTypes.object,
     children: PropTypes.array
 };
 export default Table;
