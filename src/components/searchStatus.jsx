@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 
 function SearchStatus({ usersTotal }) {
+    const firstInit = useRef(true);
     const declOfNum = (usersTotal, titles) => {
         const cases = [0, 2, 1, 1, 1, 2];
         return titles[
@@ -16,6 +17,10 @@ function SearchStatus({ usersTotal }) {
         "человека тусанут с тобой сегодня",
         "человек тусанёт с тобой сегодня"
     ]);
+    if (firstInit.current) {
+        str = "Загрузка...";
+        firstInit.current = false;
+    }
     return (
         <h4>
             <span
