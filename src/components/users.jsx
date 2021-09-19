@@ -92,7 +92,7 @@ function Users() {
                         </div>
                     )}
                     <div className="d-flex flex-column">
-                        <SearchStatus usersTotal={count} />
+                        <SearchStatus usersTotal={filteredUsers} />
                         {count > 0 && (
                             <UserTable
                                 users={usersCrop}
