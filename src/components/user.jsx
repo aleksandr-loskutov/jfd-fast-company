@@ -1,47 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Qualitie from "./qualitie";
-import Bookmark from "./bookmark";
 import PropTypes from "prop-types";
-function User({ user, ...rest }) {
-    const [bookmark, setBookmark] = useState(false);
-    const toggleBookmark = () => {
-        setBookmark(!bookmark);
-    };
-    return (
-        <tr key={user._id}>
-            <td>{user.name}</td>
-            <td>
-                {user.qualities.map((qualitie) => {
-                    return (
-                        <Qualitie
-                            key={qualitie._id}
-                            color={qualitie.color}
-                            name={qualitie.name}
-                        />
-                    );
-                })}
-            </td>
-            <td>{user.profession?.name}</td>
-            <td>{user.completedMeetings}</td>
-            <td>{user.rate + "/5"}</td>
-            <td>
-                <Bookmark status={bookmark} onBookmark={toggleBookmark} />
-            </td>
-            <td>
-                <button
-                    type={"button"}
-                    onClick={() => rest.onDelete(user._id)}
-                    className={"btn btn-danger"}
-                    userid={user._id}
-                >
-                    удалить
-                </button>
-            </td>
-        </tr>
+import { Link } from "react-router-dom";
+import api from "../api";
+function User({ userId }) {
+    const [user, setUser] = useState();
+    useEffect(() => {
+        api.users.getById(userId).then((data) => {
+            setUser(data);
+        });
+    }, []);
+    return user ? (
+        <>
+            <div className="card-body">
+                <div className="card-text">
+                    <dl className="row">
+                        <dt>Имя</dt>
+                        <dd>{user.name}</dd>
+                        <dt>Профессия</dt>
+                        <dd>{user.profession.name}</dd>
+                        <dt>Качества</dt>
+                        <dd>
+                            {user.qualities.map((qualitie) => {
+                                return (
+                                    <Qualitie
+                                        key={qualitie._id}
+                                        color={qualitie.color}
+                                        name={qualitie.name}
+                                    />
+                                );
+                            })}
+                        </dd>
+                        <dt>Встреч</dt>
+                        <dd>{user.completedMeetings}</dd>
+                        <dt>Рейтинг</dt>
+                        <dd>{user.rate + "/5"}</dd>
+                    </dl>
+                </div>
+            </div>
+            <Link to="/users">
+                <button type="button">Все пользователи</button>
+            </Link>
+        </>
+    ) : (
+        <h2>Загрузка...</h2>
     );
 }
 User.propTypes = {
-    user: PropTypes.object.isRequired,
-    onDelete: PropTypes.func.isRequired
+    userId: PropTypes.string.isRequired
 };
 export default User;
