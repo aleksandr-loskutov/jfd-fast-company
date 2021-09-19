@@ -17,6 +17,7 @@ function SearchStatus({ usersTotal }) {
         "человека тусанут с тобой сегодня",
         "человек тусанёт с тобой сегодня"
     ]);
+
     if (firstInit.current) {
         str = "Загрузка...";
         firstInit.current = false;

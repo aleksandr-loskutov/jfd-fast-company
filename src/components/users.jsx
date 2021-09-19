@@ -6,6 +6,8 @@ import api from "../api";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
 import _ from "lodash";
+import { useParams } from "react-router-dom";
+import User from "./user";
 
 function Users() {
     const [currentPage, setCurrentPage] = useState(1);
@@ -14,7 +16,8 @@ function Users() {
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const [users, setUsers] = useState([]);
     const pageSize = 8;
-
+    const params = useParams();
+    const { userId } = params;
     useEffect(() => {
         api.users.fetchAll().then((data) => {
             setUsers(data);
@@ -68,43 +71,49 @@ function Users() {
     };
 
     return (
-        <div className="d-flex">
-            {professions && (
-                <div className="d-flex flex-column flex-shrink-0 p-3">
-                    <GroupList
-                        selectedItem={selectedProf}
-                        items={professions}
-                        onItemSelect={handleProfessionsSelect}
-                    />
-                    <button
-                        className={"btn btn-secondary mt-2"}
-                        onClick={clearFilter}
-                    >
-                        Очистить
-                    </button>
+        <>
+            {userId ? (
+                <User userId={userId} />
+            ) : (
+                <div className="d-flex">
+                    {professions && (
+                        <div className="d-flex flex-column flex-shrink-0 p-3">
+                            <GroupList
+                                selectedItem={selectedProf}
+                                items={professions}
+                                onItemSelect={handleProfessionsSelect}
+                            />
+                            <button
+                                className={"btn btn-secondary mt-2"}
+                                onClick={clearFilter}
+                            >
+                                Очистить
+                            </button>
+                        </div>
+                    )}
+                    <div className="d-flex flex-column">
+                        <SearchStatus usersTotal={count} />
+                        {count > 0 && (
+                            <UserTable
+                                users={usersCrop}
+                                onSort={handleSort}
+                                selectedSort={sortBy}
+                                onToggleBookMark={handleToggleBookMark}
+                                onDelete={handleDelete}
+                            />
+                        )}
+                        <div className="d-flex justify-content-center">
+                            <Pagination
+                                itemsCount={count}
+                                pageSize={pageSize}
+                                currentPage={currentPage}
+                                onPageChange={handlePageChange}
+                            />
+                        </div>
+                    </div>
                 </div>
             )}
-            <div className="d-flex flex-column">
-                <SearchStatus usersTotal={count} />
-                {count > 0 && (
-                    <UserTable
-                        users={usersCrop}
-                        onSort={handleSort}
-                        selectedSort={sortBy}
-                        onToggleBookMark={handleToggleBookMark}
-                        onDelete={handleDelete}
-                    />
-                )}
-                <div className="d-flex justify-content-center">
-                    <Pagination
-                        itemsCount={count}
-                        pageSize={pageSize}
-                        currentPage={currentPage}
-                        onPageChange={handlePageChange}
-                    />
-                </div>
-            </div>
-        </div>
+        </>
     );
 }
 
