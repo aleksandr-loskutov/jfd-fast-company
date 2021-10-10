@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import TextField from "./textField";
 
 function Login(props) {
     const [data, setData] = useState({ email: "", password: "" });
@@ -8,29 +9,26 @@ function Login(props) {
             [target.name]: target.value
         }));
     };
-
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(data);
+    };
     return (
-        <form action="">
-            <div>
-                <label htmlFor="data">Email</label>
-                <input
-                    type="text"
-                    id="email"
-                    value={data.email}
-                    onChange={handleChange}
-                    name="email"
-                />
-            </div>
-            <div>
-                <label htmlFor="password">password</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={data.password}
-                    onChange={handleChange}
-                />
-            </div>
+        <form onSubmit={handleSubmit}>
+            <TextField
+                label="Электроная почта"
+                name="email"
+                value={data.email}
+                onChange={handleChange}
+            />
+            <TextField
+                label="Пароль"
+                type="password"
+                name="password"
+                value={data.password}
+                onChange={handleChange}
+            />
+            <button>Отправить</button>
         </form>
     );
 }
