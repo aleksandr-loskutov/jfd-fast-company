@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Qualitie from "./qualitie";
+import Qualitie from "../../ui/qualities/qualitie";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import api from "../api";
-function User({ userId }) {
+import api from "../../../api";
+function UserPage({ userId }) {
     const [user, setUser] = useState();
     useEffect(() => {
         api.users.getById(userId).then((data) => {
@@ -46,7 +46,7 @@ function User({ userId }) {
         <h2>Загрузка...</h2>
     );
 }
-User.propTypes = {
+UserPage.propTypes = {
     userId: PropTypes.string.isRequired
 };
-export default User;
+export default UserPage;
