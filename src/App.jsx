@@ -1,16 +1,16 @@
 import React from "react";
-import Users from "./components/users.jsx";
-import NavBar from "./components/navBar";
-import Main from "./components/main";
+import UsersListPage from "./components/page/userListPage/usersListPage.jsx";
+import NavBar from "./components/ui/navBar";
+import Main from "./layouts/main";
 import { Route, Switch } from "react-router-dom";
-import Login from "./components/login";
+import Login from "./layouts/login";
 function App() {
     return (
         <>
             <NavBar />
             <Switch>
                 <Route path="/login" component={Login} />
-                <Route path="/users/:userId?" component={Users} />
+                <Route path="/users/:userId?" component={UsersListPage} />
                 <Route path="/" exact component={Main} />
             </Switch>
         </>

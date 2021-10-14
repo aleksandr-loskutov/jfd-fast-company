@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { paginate } from "../utils/paginate";
-import Pagination from "./pagination";
-import GroupList from "./groupList";
-import api from "../api";
-import SearchStatus from "./searchStatus";
-import UserTable from "./usersTable";
+import { paginate } from "../../../utils/paginate";
+import Pagination from "../../common/pagination";
+import GroupList from "../../common/groupList";
+import api from "../../../api";
+import SearchStatus from "../../ui/searchStatus";
+import UserTable from "../../ui/usersTable";
 import _ from "lodash";
 import { useParams } from "react-router-dom";
-import User from "./user";
+import UserPage from "../userPage/userPage";
 
-function Users() {
+function UsersListPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
@@ -73,7 +73,7 @@ function Users() {
     return (
         <>
             {userId ? (
-                <User userId={userId} />
+                <UserPage userId={userId} />
             ) : (
                 <div className="d-flex">
                     {professions && (
@@ -117,4 +117,4 @@ function Users() {
     );
 }
 
-export default Users;
+export default UsersListPage;
