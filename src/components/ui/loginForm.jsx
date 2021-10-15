@@ -16,6 +16,7 @@ function LoginForm(props) {
             [target.name]: target.value
         }));
     };
+
     const validatorConfig = {
         email: {
             isRequired: { message: "Email обязателен" },
@@ -41,6 +42,7 @@ function LoginForm(props) {
 
     const validate = () => {
         const errors = validator(data, validatorConfig);
+
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
