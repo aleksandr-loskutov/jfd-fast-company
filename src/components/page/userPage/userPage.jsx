@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Qualitie from "../../ui/qualities/qualitie";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import api from "../../../api";
-function UserPage({ userId }) {
+import Button from "../../common/button";
+function UserPage({ userId, match }) {
     const [user, setUser] = useState();
+    if (!userId && match.params.userId) userId = match.params.userId;
     useEffect(() => {
         api.users.getById(userId).then((data) => {
             setUser(data);
         });
     }, []);
+    const handleEditClick = () => {};
     return user ? (
         <>
             <div className="card-body">
@@ -38,15 +40,20 @@ function UserPage({ userId }) {
                     </dl>
                 </div>
             </div>
-            <Link to="/users">
-                <button type="button">Все пользователи</button>
-            </Link>
+            <Button
+                handleClick={handleEditClick}
+                type="button"
+                link={`/users/${userId}/edit`}
+            >
+                Изменить
+            </Button>
         </>
     ) : (
         <h2>Загрузка...</h2>
     );
 }
 UserPage.propTypes = {
-    userId: PropTypes.string.isRequired
+    userId: PropTypes.string,
+    match: PropTypes.object
 };
 export default UserPage;
