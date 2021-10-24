@@ -3,14 +3,14 @@ import Qualitie from "../../ui/qualities/qualitie";
 import PropTypes from "prop-types";
 import api from "../../../api";
 import Button from "../../common/button";
-function UserPage({ userId, match }) {
+function UserPage({ userId }) {
     const [user, setUser] = useState();
-    if (!userId && match.params.userId) userId = match.params.userId;
     useEffect(() => {
         api.users.getById(userId).then((data) => {
             setUser(data);
         });
     }, []);
+
     const handleEditClick = () => {};
     return user ? (
         <>
@@ -49,7 +49,7 @@ function UserPage({ userId, match }) {
             </Button>
         </>
     ) : (
-        <h2>Загрузка...</h2>
+        <h2>Загрузка</h2>
     );
 }
 UserPage.propTypes = {

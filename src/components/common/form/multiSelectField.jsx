@@ -2,7 +2,7 @@ import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
 
-function MultiSelectField({ options, onChange, name, label, currentOptions }) {
+function MultiSelectField({ options, onChange, name, label, value }) {
     const optionsArray =
         !Array.isArray(options) && typeof options === "object"
             ? Object.keys(options).map((optionName) => ({
@@ -10,9 +10,17 @@ function MultiSelectField({ options, onChange, name, label, currentOptions }) {
                   value: options[optionName]._id
               }))
             : options;
+    // const valueArr = [];
+    // value.forEach((curOption) => {
+    //     optionsArray.forEach((option) => {
+    //         if (curOption._id === option.value) valueArr.push(option);
+    //     });
+    // });
+    //
     const handleChange = (value) => {
         onChange({ name: name, value });
     };
+    // console.log("value", value);
     return (
         <div className="mb-4">
             <label className="form-label">{label}</label>
@@ -21,7 +29,7 @@ function MultiSelectField({ options, onChange, name, label, currentOptions }) {
                 isMulti
                 closeMenuOnSelect={false}
                 options={optionsArray}
-                defaultValue={currentOptions}
+                value={value}
                 className="basic-multi-select"
                 classNamePrefix="select"
                 onChange={handleChange}
@@ -35,6 +43,6 @@ MultiSelectField.propTypes = {
     name: PropTypes.string,
     label: PropTypes.string,
     options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-    currentOptions: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
+    value: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 export default MultiSelectField;

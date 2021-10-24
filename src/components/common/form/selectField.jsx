@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 function SelectField({
     label,
+    name,
     value,
     onChange,
     defaultOption,
@@ -23,36 +24,54 @@ function SelectField({
               }))
             : options;
 
+    // console.log(
+    //     "value",
+    //     value,
+    //     "selected",
+    //     selected,
+    //     "optionsArray",
+    //     optionsArray
+    // );
+    // const newa = optionsArray.reduce((newArr, option) => {
+    //     if (option.name === selected) {
+    //         newArr.push(option);
+    //     }
+    //     return newArr;
+    // }, []);
+    // const getDefaultValue = () => {
+    //     return optionsArray.filter((i) => i.name === selected)[0].value;
+    // };
+    // optionsArray.filter((i) => i.name === selected)[0].value
     return (
         <div className="mb-4">
             <label htmlFor="validationCustom04" className="form-label">
                 {label}
             </label>
-            <select
-                className={getInputClasses()}
-                id="validationCustom04"
-                name="profession"
-                value={value}
-                onChange={handleChange}
-            >
-                <option disabled value="">
-                    {defaultOption}
-                </option>
-                {optionsArray &&
-                    optionsArray.map((option) => (
+            {optionsArray && (
+                <select
+                    className={getInputClasses()}
+                    id="validationCustom04"
+                    name={name}
+                    value={value}
+                    onChange={handleChange}
+                >
+                    <option disabled value="">
+                        {defaultOption}
+                    </option>
+                    {optionsArray.map((option) => (
                         <option value={option.value} key={option.value}>
                             {option.name}
                         </option>
                     ))}
-
-                <option>...</option>
-            </select>
+                </select>
+            )}
             {error && <div className="invalid-feedback">{error}</div>}
         </div>
     );
 }
 SelectField.propTypes = {
     defaultOption: PropTypes.string,
+    name: PropTypes.string,
     label: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,

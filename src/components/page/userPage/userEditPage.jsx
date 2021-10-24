@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import api from "../../../api";
 import EditUserForm from "../../ui/editUserForm";
+import PropTypes from "prop-types";
 
 function UserEditPage({ userId }) {
     const [user, setUser] = useState();
@@ -24,7 +24,7 @@ function UserEditPage({ userId }) {
             window.location.href = `/users/${userId}`;
         });
     };
-    console.log(user);
+    console.log("qualities", qualities, "professions", professions);
     return user ? (
         <>
             <h2>Редактируем {user && user.name}</h2>
