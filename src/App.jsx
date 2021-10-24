@@ -1,6 +1,4 @@
 import React from "react";
-import UsersListPage from "./components/page/userListPage/usersListPage.jsx";
-import UserPage from "./components/page/userPage";
 import NavBar from "./components/ui/navBar";
 import Main from "./layouts/main";
 import { Redirect, Route, Switch } from "react-router-dom";

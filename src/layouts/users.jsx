@@ -10,7 +10,7 @@ function Users() {
         <>
             {userId ? (
                 edit ? (
-                    <UserEditPage />
+                    <UserEditPage userId={userId} />
                 ) : (
                     <UserPage userId={userId} />
                 )
