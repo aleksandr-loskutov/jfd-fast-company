@@ -11,6 +11,7 @@ function SelectField({
     error
 }) {
     const handleChange = ({ target }) => {
+        console.log("target", { name: target.name, value: target.value });
         onChange({ name: target.name, value: target.value });
     };
     const getInputClasses = () => {
@@ -24,24 +25,6 @@ function SelectField({
               }))
             : options;
 
-    // console.log(
-    //     "value",
-    //     value,
-    //     "selected",
-    //     selected,
-    //     "optionsArray",
-    //     optionsArray
-    // );
-    // const newa = optionsArray.reduce((newArr, option) => {
-    //     if (option.name === selected) {
-    //         newArr.push(option);
-    //     }
-    //     return newArr;
-    // }, []);
-    // const getDefaultValue = () => {
-    //     return optionsArray.filter((i) => i.name === selected)[0].value;
-    // };
-    // optionsArray.filter((i) => i.name === selected)[0].value
     return (
         <div className="mb-4">
             <label htmlFor="validationCustom04" className="form-label">
