@@ -1,35 +1,22 @@
 import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
+import convertForSelect from "../../../utils/misc";
 
 function MultiSelectField({ options, onChange, name, label, value }) {
-    const optionsArray =
-        !Array.isArray(options) && typeof options === "object"
-            ? Object.keys(options).map((optionName) => ({
-                  label: options[optionName].name,
-                  value: options[optionName]._id
-              }))
-            : options;
-    // const valueArr = [];
-    // value.forEach((curOption) => {
-    //     optionsArray.forEach((option) => {
-    //         if (curOption._id === option.value) valueArr.push(option);
-    //     });
-    // });
-    //
+    const optionsArray = convertForSelect(options);
     const handleChange = (value) => {
         onChange({ name: name, value });
     };
-    // console.log("value", value);
+
     return (
         <div className="mb-4">
             <label className="form-label">{label}</label>
-
             <Select
                 isMulti
                 closeMenuOnSelect={false}
                 options={optionsArray}
-                value={value}
+                defaultValue={value}
                 className="basic-multi-select"
                 classNamePrefix="select"
                 onChange={handleChange}

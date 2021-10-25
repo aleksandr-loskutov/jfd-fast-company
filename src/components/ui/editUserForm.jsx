@@ -18,13 +18,14 @@ function EditUserForm({
     const [data, setData] = useState({
         email: email,
         name: name,
-        profession: profession.name,
+        profession: profession._id,
         sex: sex,
         qualities: qualities
     });
-
+    console.log("allProfessions", allProfessions);
     const [errors, setErrors] = useState({});
     const handleChange = (target) => {
+        console.log("handleChange", target);
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value
@@ -62,62 +63,63 @@ function EditUserForm({
         const isValid = validate();
         if (!isValid) return;
         onSubmit(data);
-        console.log(data);
+        // console.log(data);
     };
     // console.log("profession", profession);
     return (
-        <div className="p-3">
-            <form onSubmit={handleSubmit}>
-                <TextField
-                    label="Имя"
-                    name="email"
-                    value={data.name}
-                    onChange={handleChange}
-                    error={errors.name}
-                />
-                <TextField
-                    label="Электроная почта"
-                    name="email"
-                    value={data.email}
-                    onChange={handleChange}
-                    error={errors.email}
-                />
+        <form onSubmit={handleSubmit}>
+            <TextField
+                label="Имя"
+                name="email"
+                value={data.name}
+                onChange={handleChange}
+                error={errors.name}
+            />
+            <TextField
+                label="Электроная почта"
+                name="email"
+                value={data.email}
+                onChange={handleChange}
+                error={errors.email}
+            />
 
-                <SelectField
-                    onChange={handleChange}
-                    options={allProfessions}
-                    name="profession"
-                    defaultOption="Выберите.."
-                    error={errors.profession}
-                    value={data.profession}
-                    label="Выберите вашу профессию"
-                />
-                <RadioField
-                    options={[
-                        { name: "Male", value: "male" },
-                        { name: "Female", value: "female" },
-                        { name: "Other", value: "other" }
-                    ]}
-                    value={data.sex}
-                    name="sex"
-                    onChange={handleChange}
-                    label="Выберите ваш пол"
-                />
-                <MultiSelectField
-                    options={allQualities}
-                    value={qualities}
-                    onChange={handleChange}
-                    name="qualities"
-                    label="Выберите ваши качества"
-                />
-                <button
-                    disabled={!isValid}
-                    className="btn btn-primary w-100 mx-auto"
-                >
-                    Обновить
-                </button>
-            </form>
-        </div>
+            <SelectField
+                onChange={handleChange}
+                options={allProfessions}
+                name="profession"
+                defaultOption="Выберите.."
+                error={errors.profession}
+                value={data.profession}
+                label="Выберите вашу профессию"
+            />
+            <RadioField
+                options={[
+                    { name: "Male", value: "male" },
+                    { name: "Female", value: "female" },
+                    { name: "Other", value: "other" }
+                ]}
+                value={data.sex}
+                name="sex"
+                onChange={handleChange}
+                label="Выберите ваш пол"
+            />
+            <MultiSelectField
+                options={allQualities}
+                value={data.qualities.map((optionName) => ({
+                    label: optionName.name,
+                    value: optionName._id
+                }))}
+                onChange={handleChange}
+                name="qualities"
+                label="Выберите ваши качества"
+            />
+            <button
+                disabled={!isValid}
+                className="btn btn-primary w-100 mx-auto"
+            >
+                Обновить
+            </button>
+        </form>
     );
 }
 

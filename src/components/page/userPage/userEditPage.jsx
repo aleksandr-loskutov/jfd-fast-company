@@ -24,7 +24,8 @@ function UserEditPage({ userId }) {
             window.location.href = `/users/${userId}`;
         });
     };
-    console.log("qualities", qualities, "professions", professions);
+    // console.log("qualities", qualities, "professions", professions);
+    console.log("user", user);
     return user ? (
         <>
             <h2>Редактируем {user && user.name}</h2>
