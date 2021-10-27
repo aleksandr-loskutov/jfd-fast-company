@@ -5,6 +5,7 @@ import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radioField";
 import MultiSelectField from "../common/form/multiSelectField";
 import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 function EditUserForm({
     email,
     name,
@@ -18,17 +19,46 @@ function EditUserForm({
     const [data, setData] = useState({
         email: email,
         name: name,
-        profession: profession._id,
+        profession: profession,
         sex: sex,
         qualities: qualities
     });
-    console.log("allProfessions", allProfessions);
+    const { userId } = useParams();
+
     const [errors, setErrors] = useState({});
     const handleChange = (target) => {
         console.log("handleChange", target);
+        console.log("allQ", allQualities);
+        let value = target.value;
+        if (target.name === "profession") {
+            value = Object.values(allProfessions).filter(
+                (proff) => proff._id === target.value
+            )[0];
+        }
+        if (target.name === "qualities") {
+            if (target.value.length > 0) {
+                const newArr = [...data.qualities];
+                Object.values(allQualities).forEach((q) => {
+                    let found = false;
+                    target.value.forEach((val) => {
+                        found = q.name === val.label;
+                    });
+                    if (found) {
+                        newArr.push({
+                            _id: q._id,
+                            name: q.name,
+                            color: q.color
+                        });
+                    }
+                });
+                value = newArr;
+            } else {
+                value = [];
+            }
+        }
         setData((prevState) => ({
             ...prevState,
-            [target.name]: target.value
+            [target.name]: value
         }));
     };
 
@@ -65,61 +95,68 @@ function EditUserForm({
         onSubmit(data);
         // console.log(data);
     };
+    const handleBack = () => {
+        window.location.href = `/users/${userId}`;
+    };
     // console.log("profession", profession);
     return (
-        <form onSubmit={handleSubmit}>
-            <TextField
-                label="Имя"
-                name="email"
-                value={data.name}
-                onChange={handleChange}
-                error={errors.name}
-            />
-            <TextField
-                label="Электроная почта"
-                name="email"
-                value={data.email}
-                onChange={handleChange}
-                error={errors.email}
-            />
-
-            <SelectField
-                onChange={handleChange}
-                options={allProfessions}
-                name="profession"
-                defaultOption="Выберите.."
-                error={errors.profession}
-                value={data.profession}
-                label="Выберите вашу профессию"
-            />
-            <RadioField
-                options={[
-                    { name: "Male", value: "male" },
-                    { name: "Female", value: "female" },
-                    { name: "Other", value: "other" }
-                ]}
-                value={data.sex}
-                name="sex"
-                onChange={handleChange}
-                label="Выберите ваш пол"
-            />
-            <MultiSelectField
-                options={allQualities}
-                value={data.qualities.map((optionName) => ({
-                    label: optionName.name,
-                    value: optionName._id
-                }))}
-                onChange={handleChange}
-                name="qualities"
-                label="Выберите ваши качества"
-            />
-            <button
-                disabled={!isValid}
-                className="btn btn-primary w-100 mx-auto"
-            >
-                Обновить
+        <div className="w-100">
+            <button onClick={handleBack} className="btn btn-lg btn-primary">
+                Назад
             </button>
-        </form>
+            <div className="w-50 mx-auto">
+                <form onSubmit={handleSubmit}>
+                    <TextField
+                        label="Имя"
+                        name="name"
+                        value={data.name}
+                        onChange={handleChange}
+                        error={errors.name}
+                    />
+                    <TextField
+                        label="Электроная почта"
+                        name="email"
+                        value={data.email}
+                        onChange={handleChange}
+                        error={errors.email}
+                    />
+
+                    <SelectField
+                        onChange={handleChange}
+                        options={allProfessions}
+                        name="profession"
+                        defaultOption="Выберите.."
+                        error={errors.profession}
+                        value={data.profession._id}
+                        label="Выберите вашу профессию"
+                    />
+                    <RadioField
+                        options={[
+                            { name: "Male", value: "male" },
+                            { name: "Female", value: "female" },
+                            { name: "Other", value: "other" }
+                        ]}
+                        value={data.sex}
+                        name="sex"
+                        onChange={handleChange}
+                        label="Выберите ваш пол"
+                    />
+                    <MultiSelectField
+                        options={allQualities}
+                        value={data.qualities}
+                        onChange={handleChange}
+                        name="qualities"
+                        label="Выберите ваши качества"
+                    />
+                    <button
+                        disabled={!isValid}
+                        className="btn btn-primary w-100 mx-auto"
+                    >
+                        Обновить
+                    </button>
+                </form>
+            </div>
+        </div>
     );
 }
 

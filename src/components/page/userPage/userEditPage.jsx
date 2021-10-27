@@ -28,7 +28,7 @@ function UserEditPage({ userId }) {
     console.log("user", user);
     return user ? (
         <>
-            <h2>Редактируем {user && user.name}</h2>
+            <h2 className="mx-auto">Редактируем {user && user.name}</h2>
             <EditUserForm
                 {...user}
                 allQualities={qualities}
