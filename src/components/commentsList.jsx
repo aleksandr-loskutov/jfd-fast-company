@@ -2,7 +2,7 @@ import React from "react";
 import Comment from "./comment";
 import PropTypes from "prop-types";
 function CommentsList({ comments, onRemove }) {
-    // console.log("CommentsList", comments);
+    console.log("CommentsList", comments);
     return (
         <>
             <div className="card mb-3">

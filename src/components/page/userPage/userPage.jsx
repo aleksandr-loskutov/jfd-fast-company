@@ -15,7 +15,11 @@ function UserPage({ userId }) {
             setUser(data);
         });
         api.users.fetchAll().then((data) => {
-            setUsers(data);
+            setUsers(
+                data.map((userr) => {
+                    return { name: userr.name, value: userr._id };
+                })
+            );
         });
         api.comments.fetchCommentsForUser(userId).then((data) => {
             console.log("comments", comments);
@@ -26,6 +30,7 @@ function UserPage({ userId }) {
     const handleSubmit = (data) => {
         api.comments.add(data).then((newComment) => {
             console.log("newComment", newComment);
+            setComments([...comments, newComment]);
         });
         // добавляем коммент в стейт
     };
@@ -33,9 +38,11 @@ function UserPage({ userId }) {
         api.comments.remove(id).then((id) => {
             console.log("removed id", id);
         });
-        // удаляем коммент из состояния
+        const newComments = comments.filter((comment) => {
+            return comment._id !== id;
+        });
+        setComments(newComments);
     };
-    // console.log("users", users);
 
     // удалить
     const handleEditClick = () => {};

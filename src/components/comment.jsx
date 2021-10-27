@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import api from "../api";
+import timeAgo from "../utils/commentDate";
 
 function Comment({ time, comment, userId, onRemove, commentId }) {
     const [name, setName] = useState();
@@ -30,7 +31,10 @@ function Comment({ time, comment, userId, onRemove, commentId }) {
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="mb-1 ">
                                         {name}
-                                        <span className="small"> - {time}</span>
+                                        <span className="small">
+                                            {" "}
+                                            - {timeAgo(time)}
+                                        </span>
                                     </p>
                                     <button
                                         onClick={() => onRemove(commentId)}
@@ -50,7 +54,7 @@ function Comment({ time, comment, userId, onRemove, commentId }) {
 }
 Comment.propTypes = {
     userId: PropTypes.string,
-    time: PropTypes.string,
+    time: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     comment: PropTypes.string,
     onRemove: PropTypes.func,
     commentId: PropTypes.string
