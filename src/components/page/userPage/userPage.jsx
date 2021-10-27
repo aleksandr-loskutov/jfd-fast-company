@@ -32,7 +32,6 @@ function UserPage({ userId }) {
             console.log("newComment", newComment);
             setComments([...comments, newComment]);
         });
-        // добавляем коммент в стейт
     };
     const handleRemove = (id) => {
         api.comments.remove(id).then((id) => {
@@ -44,7 +43,6 @@ function UserPage({ userId }) {
         setComments(newComments);
     };
 
-    // удалить
     const handleEditClick = () => {};
     return user ? (
         <>

@@ -4,27 +4,29 @@ import PropTypes from "prop-types";
 function CommentsList({ comments, onRemove }) {
     console.log("CommentsList", comments);
     return (
-        <>
-            <div className="card mb-3">
-                <div className="card-body ">
-                    <h2>Comments</h2>
-                    <hr />
-                    {comments &&
-                        comments.map((comment) => {
-                            return (
-                                <Comment
-                                    key={comment._id}
-                                    time={comment.created_at}
-                                    comment={comment.content}
-                                    userId={comment.userId}
-                                    commentId={comment._id}
-                                    onRemove={onRemove}
-                                />
-                            );
-                        })}
+        comments.length > 0 && (
+            <>
+                <div className="card mb-3">
+                    <div className="card-body ">
+                        <h2>Comments</h2>
+                        <hr />
+                        {comments &&
+                            comments.map((comment) => {
+                                return (
+                                    <Comment
+                                        key={comment._id}
+                                        time={comment.created_at}
+                                        comment={comment.content}
+                                        userId={comment.userId}
+                                        commentId={comment._id}
+                                        onRemove={onRemove}
+                                    />
+                                );
+                            })}
+                    </div>
                 </div>
-            </div>
-        </>
+            </>
+        )
     );
 }
 CommentsList.propTypes = {
