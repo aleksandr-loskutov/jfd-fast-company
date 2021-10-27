@@ -37,12 +37,6 @@ function PostCommentForm({ users, onSubmit }) {
     return (
         <div className="mb-4">
             <form onSubmit={handleSubmit}>
-                <TextArea
-                    label="Сообщение"
-                    name="content"
-                    value={data.content}
-                    onChange={handleChange}
-                />
                 <SelectField
                     onChange={handleChange}
                     options={users}
@@ -52,6 +46,13 @@ function PostCommentForm({ users, onSubmit }) {
                     label="Выберите пользователя"
                     error={error}
                 />
+                <TextArea
+                    label="Сообщение"
+                    name="content"
+                    value={data.content}
+                    onChange={handleChange}
+                />
+
                 <button className="btn btn-primary w-100 mx-auto">
                     Отправить
                 </button>
