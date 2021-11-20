@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { validator } from "../../../utils/validator";
 import api from "../../../api";
 import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radio.Field";
 import MultiSelectField from "../../common/form/multiSelectField";
 import BackHistoryButton from "../../common/backButton";
-import { validator } from "../../../utils/validator";
 
 const EditUserPage = () => {
     const { userId } = useParams();
@@ -54,12 +54,16 @@ const EditUserPage = () => {
             .then((data) => history.push(`/users/${data._id}`));
         console.log(data);
     };
+    const transformData = (data) => {
+        return data.map((qual) => ({ label: qual.name, value: qual._id }));
+    };
     useEffect(() => {
         setIsLoading(true);
-        api.users.getById(userId).then(({ profession, ...data }) =>
+        api.users.getById(userId).then(({ profession, qualities, ...data }) =>
             setData((prevState) => ({
                 ...prevState,
                 ...data,
+                qualities: transformData(qualities),
                 profession: profession._id
             }))
         );
@@ -123,6 +127,7 @@ const EditUserPage = () => {
                             <SelectField
                                 label="Выбери свою профессию"
                                 defaultOption="Choose..."
+                                name="profession"
                                 options={professions}
                                 onChange={handleChange}
                                 value={data.profession}
