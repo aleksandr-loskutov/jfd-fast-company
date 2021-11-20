@@ -1,14 +1,13 @@
-import React from "react";
-import { useProfessions } from "../../hooks/useProfession";
+import React, { useProfessions } from "../../hooks/useProfession";
 import PropTypes from "prop-types";
-function Profession({ id }) {
+
+const Profession = ({ id }) => {
     const { isLoading, getProfession } = useProfessions();
     const prof = getProfession(id);
-
     if (!isLoading) {
         return <p>{prof.name}</p>;
-    } else return "Loading...";
-}
+    } else return "loading ...";
+};
 Profession.propTypes = {
     id: PropTypes.string
 };
