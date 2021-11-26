@@ -40,7 +40,8 @@ const AuthProvider = ({ children }) => {
                 switch (message) {
                     case "INVALID_PASSWORD":
                         throw new Error("Email или пароль введены некорректно");
-
+                    case "EMAIL_NOT_FOUND":
+                        throw new Error("Такой email не зарегистрирован");
                     default:
                         throw new Error(
                             "Слишком много попыток входа. Попробуйте позднее"
