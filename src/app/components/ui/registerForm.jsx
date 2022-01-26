@@ -55,8 +55,9 @@ const RegisterForm = () => {
                 min: {
                     message: "Имя должно состаять миниму из 3 символов",
                     value: 3
-
-                },
+                }
+            }
+        },
         password: {
             isRequired: {
                 message: "Пароль обязательна для заполнения"
