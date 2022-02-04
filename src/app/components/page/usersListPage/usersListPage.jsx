@@ -14,8 +14,8 @@ const UsersListPage = () => {
     const { currentUser } = useAuth();
     const { isLoading: professionsLoading, professions } = useProfessions();
     const [currentPage, setCurrentPage] = useState(1);
-    const [selectedProf, setSelectedProf] = useState();
     const [searchQuery, setSearchQuery] = useState("");
+    const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 8;
 

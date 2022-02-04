@@ -11,8 +11,8 @@ const Comment = ({
     onRemove
 }) => {
     const { getUserById } = useUser();
-    const user = getUserById(userId);
     const { currentUser } = useAuth();
+    const user = getUserById(userId);
 
     return (
         <div className="bg-light card-body  mb-3">
@@ -20,7 +20,7 @@ const Comment = ({
                 <div className="col">
                     <div className="d-flex flex-start ">
                         <img
-                            src={user?.image}
+                            src={user.image}
                             className="rounded-circle shadow-1-strong me-3"
                             alt="avatar"
                             width="65"

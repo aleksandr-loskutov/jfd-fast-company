@@ -25,6 +25,7 @@ const AuthProvider = ({ children }) => {
     const [error, setError] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const history = useHistory();
+
     async function logIn({ email, password }) {
         try {
             const { data } = await httpAuth.post(
@@ -45,8 +46,7 @@ const AuthProvider = ({ children }) => {
                 switch (message) {
                     case "INVALID_PASSWORD":
                         throw new Error("Email или пароль введены некорректно");
-                    case "EMAIL_NOT_FOUND":
-                        throw new Error("Такой email не зарегистрирован");
+
                     default:
                         throw new Error(
                             "Слишком много попыток входа. Попробуйте позднее"
@@ -55,21 +55,24 @@ const AuthProvider = ({ children }) => {
             }
         }
     }
-    async function updateUser(data) {
+    function logOut() {
+        localStorageService.removeAuthData();
+        setUser(null);
+        console.log("push");
+        history.push("/");
+    }
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    async function updateUserData(data) {
+        const { content } = await userService.update(data);
+        setUser(content);
         try {
             const { content } = await userService.update(data);
             setUser(content);
         } catch (error) {
             errorCatcher(error);
         }
-    }
-    function logOut() {
-        localStorageService.removeAuthData();
-        setUser(null);
-        history.push("/");
-    }
-    function randomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
     }
     async function signUp({ email, password, ...rest }) {
         try {
@@ -79,7 +82,6 @@ const AuthProvider = ({ children }) => {
                 returnSecureToken: true
             });
             setTokens(data);
-
             await createUser({
                 _id: data.localId,
                 email,
@@ -104,12 +106,12 @@ const AuthProvider = ({ children }) => {
                     throw errorObject;
                 }
             }
-            // throw new Error
         }
     }
     async function createUser(data) {
         try {
             const { content } = await userService.create(data);
+            console.log(content);
             setUser(content);
         } catch (error) {
             errorCatcher(error);
@@ -144,7 +146,7 @@ const AuthProvider = ({ children }) => {
     }, [error]);
     return (
         <AuthContext.Provider
-            value={{ signUp, logIn, currentUser, logOut, updateUser }}
+            value={{ signUp, logIn, currentUser, logOut, updateUserData }}
         >
             {!isLoading ? children : "Loading..."}
         </AuthContext.Provider>

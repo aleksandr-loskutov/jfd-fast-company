@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
-
-function NavProfile(props) {
+import { useAuth } from "../../hooks/useAuth";
+const NavProfile = () => {
     const { currentUser } = useAuth();
     const [isOpen, setOpen] = useState(false);
     const toggleMenu = () => {
@@ -10,7 +9,7 @@ function NavProfile(props) {
     };
     return (
         <div className="dropdown" onClick={toggleMenu}>
-            <div className="btn dropdown-toggle d-flex align-center">
+            <div className="btn dropdown-toggle d-flex align-items-center">
                 <div className="me-2">{currentUser.name}</div>
                 <img
                     src={currentUser.image}
@@ -32,6 +31,6 @@ function NavProfile(props) {
             </div>
         </div>
     );
-}
+};
 
 export default NavProfile;
