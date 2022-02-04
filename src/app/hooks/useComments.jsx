@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useParams } from "react-router";
 import { useAuth } from "./useAuth";
 import { nanoid } from "nanoid";
-import commentService from "../services/commentService";
-import { toast } from "react-toastify";
+import commentService from "../services/comment.service";
 
 const CommentsContext = React.createContext();
 
@@ -35,6 +35,7 @@ export const CommentsProvider = ({ children }) => {
         } catch (error) {
             errorCatcher(error);
         }
+        console.log(comment);
     }
     async function getComments() {
         try {
@@ -58,7 +59,7 @@ export const CommentsProvider = ({ children }) => {
                     prevState.filter((c) => c._id !== id)
                 );
             }
-        } catch (e) {
+        } catch (error) {
             errorCatcher(error);
         }
     }

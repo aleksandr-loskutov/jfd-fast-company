@@ -1,8 +1,8 @@
 import React from "react";
-import { useAuth } from "../../hooks/useAuth";
-import { Redirect, Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
-function ProtectedRoute({ component: Component, children, ...rest }) {
+import { useAuth } from "../../hooks/useAuth";
+const ProtectedRoute = ({ component: Component, children, ...rest }) => {
     const { currentUser } = useAuth();
     return (
         <Route
@@ -13,7 +13,9 @@ function ProtectedRoute({ component: Component, children, ...rest }) {
                         <Redirect
                             to={{
                                 pathname: "/login",
-                                state: { from: props.location }
+                                state: {
+                                    from: props.location
+                                }
                             }}
                         />
                     );
@@ -22,8 +24,7 @@ function ProtectedRoute({ component: Component, children, ...rest }) {
             }}
         />
     );
-}
-
+};
 ProtectedRoute.propTypes = {
     component: PropTypes.func,
     location: PropTypes.object,
@@ -32,4 +33,5 @@ ProtectedRoute.propTypes = {
         PropTypes.node
     ])
 };
+
 export default ProtectedRoute;
