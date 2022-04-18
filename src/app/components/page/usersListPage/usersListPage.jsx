@@ -15,6 +15,7 @@ import { getCurrentUserId, getUsersList } from "../../../store/users";
 const UsersListPage = () => {
     const users = useSelector(getUsersList());
     const currentUserId = useSelector(getCurrentUserId());
+
     const professions = useSelector(getProfessions());
     const professionsLoading = useSelector(getProfessionsLoadingStatus());
     const [currentPage, setCurrentPage] = useState(1);
@@ -67,11 +68,7 @@ const UsersListPage = () => {
                           .indexOf(searchQuery.toLowerCase()) !== -1
               )
             : selectedProf
-            ? data.filter(
-                  (user) =>
-                      JSON.stringify(user.profession) ===
-                      JSON.stringify(selectedProf)
-              )
+            ? data.filter((user) => user.profession === selectedProf._id)
             : data;
         return filteredUsers.filter((u) => u._id !== currentUserId);
     }
@@ -82,6 +79,7 @@ const UsersListPage = () => {
     const clearFilter = () => {
         setSelectedProf();
     };
+
     return (
         <div className="d-flex">
             {professions && !professionsLoading && (
