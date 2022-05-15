@@ -1,11 +1,11 @@
 import { useEffect } from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {
     getIsLoggedIn,
     getUsersLoadingStatus,
     loadUsersList
 } from "../../../store/users";
-import PropTypes from "prop-types";
 import { loadQualitiesList } from "../../../store/qualities";
 import { loadProfessionsList } from "../../../store/professions";
 function AppLoader({ children }) {
@@ -13,7 +13,7 @@ function AppLoader({ children }) {
     const isLoggedIn = useSelector(getIsLoggedIn());
     const usersStatusLoading = useSelector(getUsersLoadingStatus());
     useEffect(() => {
-        dispatch(loadQualitiesList);
+        dispatch(loadQualitiesList());
         dispatch(loadProfessionsList());
         if (isLoggedIn) {
             dispatch(loadUsersList());
@@ -22,6 +22,7 @@ function AppLoader({ children }) {
     if (usersStatusLoading) return "Loading...";
     return children;
 }
+
 AppLoader.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
