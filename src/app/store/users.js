@@ -54,6 +54,15 @@ const usersSlice = createSlice({
                 state.entities.findIndex((u) => u._id === action.payload._id)
             ] = action.payload;
         },
+        userBookmarkUpdated: (state, action) => {
+            const userIndex = state.entities.findIndex(
+                (u) => u._id === action.payload._id
+            );
+            state.entities[userIndex].bookmarks = action.payload.bookmarks;
+        },
+        userBookmarkUpdateFailed: (state, action) => {
+            state.error = action.payload;
+        },
         userLoggedOut: (state) => {
             state.entities = null;
             state.isLoggedIn = false;
@@ -74,12 +83,17 @@ const {
     authRequestFailed,
     userCreated,
     userUpdated,
+    userBookmarkUpdated,
+    userBookmarkUpdateFailed,
     userLoggedOut
 } = actions;
 
 const authRequested = createAction("users/authRequested");
 const userCreateRequested = createAction("users/userCreateRequested");
 const userUpdateRequested = createAction("users/userUpdateRequested");
+const userBookmarkUpdateRequested = createAction(
+    "users/userBookmarkUpdateRequested"
+);
 const createUpdateFailed = createAction("users/createUpdateFailed");
 const createUserFailed = createAction("users/createUserFailed");
 export const login =
@@ -116,6 +130,7 @@ export const signUp =
                     email,
                     rate: randomInt(1, 5),
                     completedMeetings: randomInt(0, 200),
+                    bookmarks: [],
                     image: `https://avatars.dicebear.com/api/avataaars/${(
                         Math.random() + 1
                     )
@@ -160,7 +175,18 @@ export function updateUserData(payload) {
         }
     };
 }
-export const loadUsersList = () => async (dispatch, getState) => {
+export function updateBookmarks(payload) {
+    return async function (dispatch) {
+        dispatch(userBookmarkUpdateRequested());
+        try {
+            const { content } = await userService.update(payload);
+            dispatch(userBookmarkUpdated(content));
+        } catch (error) {
+            dispatch(userBookmarkUpdateFailed(error.message));
+        }
+    };
+}
+export const loadUsersList = () => async (dispatch) => {
     dispatch(usersRequested());
     try {
         const { content } = await userService.get();
