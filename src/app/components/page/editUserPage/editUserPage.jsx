@@ -49,11 +49,13 @@ const EditUserPage = () => {
     };
     function getQualitiesListByIds(qualitiesIds) {
         const qualitiesArray = [];
-        for (const qualId of qualitiesIds) {
-            for (const quality of qualities) {
-                if (quality._id === qualId) {
-                    qualitiesArray.push(quality);
-                    break;
+        if (qualitiesIds) {
+            for (const qualId of qualitiesIds) {
+                for (const quality of qualities) {
+                    if (quality._id === qualId) {
+                        qualitiesArray.push(quality);
+                        break;
+                    }
                 }
             }
         }
@@ -156,7 +158,7 @@ const EditUserPage = () => {
                                 options={qualitiesList}
                                 onChange={handleChange}
                                 name="qualities"
-                                label="Выберите ваши качесвта"
+                                label="Выберите ваши качества"
                             />
                             <button
                                 type="submit"
