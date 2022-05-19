@@ -25,10 +25,10 @@ const NavProfile = () => {
                     to={`/users/${currentUser._id}`}
                     className="dropdown-item"
                 >
-                    Profile
+                    Профиль
                 </Link>
                 <Link to="/logout" className="dropdown-item">
-                    Log Out
+                    Выйти
                 </Link>
             </div>
         </div>
