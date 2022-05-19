@@ -10,33 +10,43 @@ import {
     getProfessions,
     getProfessionsLoadingStatus
 } from "../../../store/professions";
-import { useSelector } from "react-redux";
-import { getCurrentUserId, getUsersList } from "../../../store/users";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    getCurrentUserData,
+    getCurrentUserId,
+    getUsersList,
+    updateBookmarks
+} from "../../../store/users";
 const UsersListPage = () => {
     const users = useSelector(getUsersList());
     const currentUserId = useSelector(getCurrentUserId());
-
+    const user = useSelector(getCurrentUserData());
+    const currentUserBookmarks = user.bookmarks || [];
+    const dispatch = useDispatch();
     const professions = useSelector(getProfessions());
     const professionsLoading = useSelector(getProfessionsLoadingStatus());
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
-    const pageSize = 8;
+    const pageSize = 6;
 
-    const handleDelete = (userId) => {
-        console.log("delete user");
-        // setUsers(users.filter((user) => user._id !== userId));
-    };
     const handleToggleBookMark = (id) => {
-        const newArray = users.map((user) => {
-            if (user._id === id) {
-                return { ...user, bookmark: !user.bookmark };
-            }
-            return user;
-        });
-        // setUsers(newArray);
-        console.log(newArray);
+        if (!currentUserBookmarks.includes(id)) {
+            dispatch(
+                updateBookmarks({
+                    _id: user._id,
+                    bookmarks: [...currentUserBookmarks, id]
+                })
+            );
+        } else {
+            dispatch(
+                updateBookmarks({
+                    _id: user._id,
+                    bookmarks: currentUserBookmarks.filter((b) => b !== id)
+                })
+            );
+        }
     };
 
     useEffect(() => {
@@ -111,7 +121,7 @@ const UsersListPage = () => {
                         users={usersCrop}
                         onSort={handleSort}
                         selectedSort={sortBy}
-                        onDelete={handleDelete}
+                        currentUserBookmarks={currentUserBookmarks}
                         onToggleBookMark={handleToggleBookMark}
                     />
                 )}
