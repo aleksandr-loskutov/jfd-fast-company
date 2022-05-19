@@ -12,6 +12,7 @@ const UserTable = ({
     onSort,
     selectedSort,
     onToggleBookMark,
+    currentUserBookmarks,
     ...rest
 }) => {
     const columns = {
@@ -40,7 +41,7 @@ const UserTable = ({
             name: "Избранное",
             component: (user) => (
                 <BookMark
-                    status={user.bookmark}
+                    status={currentUserBookmarks.includes(user._id)}
                     onClick={() => onToggleBookMark(user._id)}
                 />
             )
@@ -60,7 +61,8 @@ UserTable.propTypes = {
     users: PropTypes.array.isRequired,
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired,
-    onToggleBookMark: PropTypes.func.isRequired
+    onToggleBookMark: PropTypes.func.isRequired,
+    currentUserBookmarks: PropTypes.array.isRequired
 };
 
 export default UserTable;
