@@ -11,7 +11,7 @@ const NavBar = () => {
                 <ul className="nav">
                     <li className="nav-item">
                         <Link className="nav-link " aria-current="page" to="/">
-                            Main
+                            Главная
                         </Link>
                     </li>
                     {isLoggedIn && (
@@ -21,7 +21,7 @@ const NavBar = () => {
                                 aria-current="page"
                                 to="/users"
                             >
-                                Users
+                                Пользователи
                             </Link>
                         </li>
                     )}
@@ -35,7 +35,7 @@ const NavBar = () => {
                             aria-current="page"
                             to="/login"
                         >
-                            Login
+                            Войти
                         </Link>
                     )}
                 </div>

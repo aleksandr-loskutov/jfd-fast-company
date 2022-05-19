@@ -133,7 +133,7 @@ const RegisterForm = () => {
             />
             <SelectField
                 label="Выбери свою профессию"
-                defaultOption="Choose..."
+                defaultOption="Выберите..."
                 name="profession"
                 options={professionsList}
                 onChange={handleChange}
@@ -155,7 +155,7 @@ const RegisterForm = () => {
                 options={qualitiesList}
                 onChange={handleChange}
                 name="qualities"
-                label="Выберите ваши качесвта"
+                label="Выберите ваши качества"
             />
             <CheckBoxField
                 value={data.licence}
@@ -170,7 +170,7 @@ const RegisterForm = () => {
                 disabled={!isValid}
                 className="btn btn-primary w-100 mx-auto"
             >
-                Submit
+                Отправить
             </button>
         </form>
     );
