@@ -1,24 +1,19 @@
 import React from "react";
-import useMockData from "../utils/mockData";
+import { Link } from "react-router-dom";
 
 const Main = () => {
-    const { error, initialize, progress, status } = useMockData();
-    const handleClick = () => {
-        initialize();
-    };
     return (
-        <div className="container mt-5">
-            <h1> Main Page</h1>
-            <h3>Инициализация данных в FireBase</h3>
-            <ul>
-                <li>Status:{status}</li>
-                <li>Progress: {progress}%</li>
-                {error && <li>error: {error}</li>}
-            </ul>
-            <button className="btn btn-primary" onClick={handleClick}>
-                {" "}
-                Инициализировать
-            </button>
+        <div className="card text-center mt-5">
+            <div className="card-body">
+                <h1 className="card-title">Поиск друзей в один клик!</h1>
+                <p className="card-text">
+                    В нашем приложении ты без труда найдешь себе компанию по
+                    интересам.
+                </p>
+                <Link to={"/login"} className="btn btn-primary">
+                    Войти
+                </Link>
+            </div>
         </div>
     );
 };
