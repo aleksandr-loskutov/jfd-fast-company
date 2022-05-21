@@ -11,7 +11,7 @@ App for finding a company made with React, Redux, Firebase.
 - Implemented all CRUD operations;
 
 ## Demo
-[ App URL](http://aleksandrl.ru:2999/)
+[ App URL](http://aleksandrl.ru:1499/)
 
 ## Video
 [ Short video of functionality showcase](https://www.berrycast.com/conversations/7cd95124-b008-55e3-9598-a82e4bf03642).
